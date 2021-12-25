@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const proxies = require("./proxies");
 
 // Create Express Server
 const app = express();
@@ -20,47 +21,7 @@ app.get("/info", (req, res, next) => {
 });
 
 // Authorization
-app.use("", (req, res, next) => {
-  if (req.headers.authorization === "mostafa") {
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-});
-
-// Proxy endpoints
-app.use(
-  "/json_placeholder",
-  createProxyMiddleware({
-    target: "https://jsonplaceholder.typicode.com",
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/json_placeholder`]: "",
-    },
-  })
-);
-
-app.use(
-  "/onesignal",
-  createProxyMiddleware({
-    target: "https://onesignal.com/",
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/onesignal`]: "",
-    },
-  })
-);
-
-app.use(
-  "/onesignal_api",
-  createProxyMiddleware({
-    target: "https://api.onesignal.com",
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/onesignal_api`]: "",
-    },
-  })
-);
+app.use("/proxies", proxies);
 
 // Start the Proxy
 app.listen(port, () => {
