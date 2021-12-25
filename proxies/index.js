@@ -4,7 +4,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 // Authorization
 router.use("", (req, res, next) => {
-  if (req.headers.authorization === "mostafa") {
+  if (req.headers.authorization === "4ECF4FDF-604B-4BD0-842B-C79E92273670") {
     next();
   } else {
     res.sendStatus(403);
